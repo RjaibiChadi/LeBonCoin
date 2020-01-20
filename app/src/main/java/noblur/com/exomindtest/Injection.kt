@@ -27,7 +27,6 @@ object Injection {
     fun provideAlbumRepository(context: Context): AlbumRepository {
         val database = ExomindDatabase.getInstance(context)
         val api = RetrofitClient.instance.create(ExomindService::class.java)
-
         return AlbumRepository.getInstance(
             AlbumRemoteDataSource.getInstance(CompositeDisposable(),api),
             AlbumLocalDataSource.getInstance(AppExecutors(), database.albumDao()))
