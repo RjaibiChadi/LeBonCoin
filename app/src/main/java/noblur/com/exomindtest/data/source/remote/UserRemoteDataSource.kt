@@ -1,5 +1,6 @@
 package noblur.com.exomindtest.data.source.remote
 
+import android.util.Log
 import androidx.annotation.VisibleForTesting
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -21,7 +22,9 @@ class UserRemoteDataSource(
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                {it-> callback.onUsersLoaded(it)},
+                {it->
+
+                    callback.onUsersLoaded(it)},
                 { error ->
 
                     callback.onDataNotAvailable(500)

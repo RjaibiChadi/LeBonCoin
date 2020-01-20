@@ -36,6 +36,7 @@ class UserLocalDataSource(
     }
 
     override fun registerUser(users: List<User>) {
+        appExecutors.diskIO.execute { userDao.insertUser(users) }
 
     }
 

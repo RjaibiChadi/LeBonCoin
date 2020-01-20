@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".albumdetailcomponent.AlbumDetailActivity"></activity>
+        <activity android:name=".photodetailcomponent.PhotoDetailActivity"></activity>
+        <activity android:name=".albumdetailcomponent.AlbumDetailActivity" />
         <activity android:name=".homecomponent.HomePageActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

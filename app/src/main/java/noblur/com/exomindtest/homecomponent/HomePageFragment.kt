@@ -37,21 +37,22 @@ class HomePageFragment : Fragment(),UserItemActionsListener {
         viewModel = (activity as HomePageActivity).obtainViewModel()
 
 
+        _users = mutableListOf()
+        userAdapter = UserAdapter(_users,this@HomePageFragment)
+
+        /**
+         * initialise recycle view
+         */
+        recyclerView.apply {
+
+            addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
+            layoutManager = LinearLayoutManager(activity)
+            adapter = userAdapter
+
+        }
+
+
         viewModel.run {
-
-            _users = mutableListOf()
-            userAdapter = UserAdapter(_users,this@HomePageFragment)
-
-            /**
-             * initialise recycle view
-             */
-            recyclerView.apply {
-
-                addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
-                layoutManager = LinearLayoutManager(activity)
-                adapter = userAdapter
-
-            }
 
 
             users.observe(this@HomePageFragment, Observer { users->
@@ -78,7 +79,7 @@ class HomePageFragment : Fragment(),UserItemActionsListener {
 
     override fun onDeviceClicked(user: User) {
 
-        Log.i("HomePageFreg",user.email)
+        viewModel.showAlbum(user.id)
 
     }
 

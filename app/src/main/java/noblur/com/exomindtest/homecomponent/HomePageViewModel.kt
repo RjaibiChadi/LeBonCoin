@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import noblur.com.exomindtest.data.entities.Event
 import noblur.com.exomindtest.data.entities.User
 import noblur.com.exomindtest.data.repository.UserDataSource
 import noblur.com.exomindtest.data.repository.UserRepository
@@ -16,6 +17,9 @@ class HomePageViewModel(
     val users: LiveData<List<User>>
         get() = _users
 
+    private val _openAlbumEvent = MutableLiveData<Event<Int>>()
+    val openAlbumEvent: LiveData<Event<Int>>
+        get() = _openAlbumEvent
 
     fun start() {
 
@@ -37,6 +41,12 @@ class HomePageViewModel(
             }
 
         })
+    }
+
+    fun showAlbum(userId: Int) {
+
+        _openAlbumEvent.value = Event(userId)
+
     }
 
 

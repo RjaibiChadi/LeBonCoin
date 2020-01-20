@@ -1,5 +1,6 @@
 package noblur.com.exomindtest.data.repository
 
+import android.util.Log
 import noblur.com.exomindtest.data.entities.Album
 import noblur.com.exomindtest.data.entities.User
 
@@ -11,7 +12,39 @@ class AlbumRepository(
 
     override fun getAlbumsByUserId(userId: Int, callback: AlbumDataSource.GetAlbumsCallback) {
 
+        albumLocalDataSource.getAlbumsByUserId(userId,object :AlbumDataSource.GetAlbumsCallback{
+            override fun onAlbumsLoaded(albums: List<Album>) {
 
+                callback.onAlbumsLoaded(albums)
+            }
+
+            override fun onDataNotAvailable(code: Int) {
+
+                getAlbumsByIdRemote(userId,callback)
+            }
+
+        })
+
+    }
+
+    private fun getAlbumsByIdRemote(userId: Int,callback: AlbumDataSource.GetAlbumsCallback) {
+
+        albumRemoteDataSource.getAlbumsByUserId(userId,object :AlbumDataSource.GetAlbumsCallback{
+            override fun onAlbumsLoaded(albums: List<Album>) {
+
+                callback.onAlbumsLoaded(albums)
+                albumLocalDataSource.registerAlbums(albums)
+
+            }
+
+            override fun onDataNotAvailable(code: Int) {
+
+                callback.onDataNotAvailable(code)
+
+            }
+
+
+        })
     }
 
     override fun registerAlbums(albums: List<Album>) {

@@ -1,6 +1,7 @@
 package noblur.com.exomindtest.data.source.local.albumlocal
 
 
+import android.util.Log
 import androidx.annotation.VisibleForTesting
 import noblur.com.exomindtest.data.entities.Album
 import noblur.com.exomindtest.data.entities.User
@@ -16,9 +17,26 @@ class AlbumLocalDataSource(
 
     override fun getAlbumsByUserId(userId: Int, callback: AlbumDataSource.GetAlbumsCallback) {
 
+        appExecutors.diskIO.execute {
+
+            val albums = albumDao.getAlbumByUserId(userId)
+            appExecutors.diskIO.execute {
+                if (albums.isEmpty()){
+
+                    callback.onDataNotAvailable(500)
+                }else{
+                    callback.onAlbumsLoaded(albums)
+                    Log.i("Albumlocal",albums.size.toString())
+
+                }
+
+            }
+        }
+
     }
 
     override fun registerAlbums(albums: List<Album>) {
+        appExecutors.diskIO.execute { albumDao.insertAlbum(albums) }
 
     }
 
