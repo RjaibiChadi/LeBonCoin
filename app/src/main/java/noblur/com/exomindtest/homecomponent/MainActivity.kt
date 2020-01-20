@@ -1,7 +1,8 @@
-package noblur.com.exomindtest
+package noblur.com.exomindtest.homecomponent
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import noblur.com.exomindtest.R
 
 class MainActivity : AppCompatActivity() {
 
