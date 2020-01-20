@@ -9,7 +9,7 @@ import retrofit2.http.*
 interface ExomindService {
 
     @GET("users")
-    fun getUsers() : Observable<User>
+    fun getUsers() : Observable<List<User>>
 
 
 }

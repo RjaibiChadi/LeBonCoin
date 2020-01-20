@@ -1,7 +1,9 @@
 package noblur.com.exomindtest.data.source.remote
 
 import androidx.annotation.VisibleForTesting
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import noblur.com.exomindtest.data.entities.User
 import noblur.com.exomindtest.data.repository.UserDataSource
 
@@ -14,6 +16,18 @@ class UserRemoteDataSource(
 
     override fun getUsers(callback: UserDataSource.GetUsersCallback) {
 
+
+        compositeDisposable?.add(api.getUsers()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {it-> callback.onUsersLoaded(it)},
+                { error ->
+
+                    callback.onDataNotAvailable(500)
+                }
+            )
+        )
     }
 
     override fun getUserByName(query: String, callback: UserDataSource.GetUserCallback) {

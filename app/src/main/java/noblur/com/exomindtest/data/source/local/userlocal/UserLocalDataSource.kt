@@ -14,6 +14,21 @@ class UserLocalDataSource(
 
     override fun getUsers(callback: UserDataSource.GetUsersCallback) {
 
+        appExecutors.diskIO.execute {
+
+            val users = userDao.getUsers()
+            appExecutors.diskIO.execute {
+                if (users.isEmpty()){
+
+                    callback.onDataNotAvailable(500)
+                }else{
+                    callback.onUsersLoaded(users)
+
+                }
+
+            }
+        }
+
     }
 
     override fun getUserByName(query: String, callback: UserDataSource.GetUserCallback) {
