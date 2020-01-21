@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,15 +16,17 @@ import kotlinx.android.synthetic.main.home_page_fragment.*
 import noblur.com.exomindtest.R
 import noblur.com.exomindtest.data.entities.User
 
-class HomePageFragment : Fragment(),UserItemActionsListener {
+class HomePageFragment : Fragment(),UserItemActionsListener, SearchView.OnQueryTextListener {
 
     companion object {
+        lateinit var _users: MutableList<User>
+        lateinit var _usersSearch: MutableList<User>
+
         fun newInstance() = HomePageFragment()
     }
 
     private lateinit var viewModel: HomePageViewModel
     private lateinit var userAdapter: UserAdapter
-    private lateinit var _users: MutableList<User>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,7 +41,8 @@ class HomePageFragment : Fragment(),UserItemActionsListener {
 
 
         _users = mutableListOf()
-        userAdapter = UserAdapter(_users,this@HomePageFragment)
+        _usersSearch = mutableListOf()
+        userAdapter = UserAdapter(_users,_usersSearch,this@HomePageFragment)
 
         /**
          * initialise recycle view
@@ -62,12 +66,17 @@ class HomePageFragment : Fragment(),UserItemActionsListener {
             })
 
         }
+
+        searchView_user!!.setOnQueryTextListener(this)
+
     }
 
     private fun showUsers(users: List<User>?) {
 
         _users.clear()
         _users.addAll(users!!)
+        _usersSearch.clear()
+        _usersSearch.addAll(users)
         userAdapter.notifyDataSetChanged()
     }
 
@@ -81,6 +90,18 @@ class HomePageFragment : Fragment(),UserItemActionsListener {
 
         viewModel.showAlbum(user.id)
 
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+
+        userAdapter.filter(newText!!)
+
+        return true
     }
 
 }

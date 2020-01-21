@@ -12,6 +12,40 @@ class PhotoRepository(
 
     override fun getPhotosByAlbumId(albumId: Int, callback: PhotoDataSource.GetPhotosCallback) {
 
+        photoLocalDataSource.getPhotosByAlbumId(albumId,object :PhotoDataSource.GetPhotosCallback{
+            override fun onPhotosLoaded(photos: List<Photo>) {
+
+                callback.onPhotosLoaded(photos)
+
+            }
+
+            override fun onDataNotAvailable(code: Int) {
+
+                getPhotosByIdRemote(albumId,callback)
+
+            }
+
+
+        })
+
+    }
+
+    private fun getPhotosByIdRemote(albumId: Int, callback: PhotoDataSource.GetPhotosCallback) {
+
+        photoRemoteDataSource.getPhotosByAlbumId(albumId,object :PhotoDataSource.GetPhotosCallback{
+            override fun onPhotosLoaded(photos: List<Photo>) {
+
+                callback.onPhotosLoaded(photos)
+                photoLocalDataSource.registerPhotos(photos)
+            }
+
+            override fun onDataNotAvailable(code: Int) {
+
+                callback.onDataNotAvailable(code)
+            }
+
+
+        })
     }
 
     override fun registerPhotos(photos: List<Photo>) {

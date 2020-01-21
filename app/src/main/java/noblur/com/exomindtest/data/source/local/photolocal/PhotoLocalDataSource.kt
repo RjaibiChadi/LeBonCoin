@@ -1,6 +1,7 @@
 package noblur.com.exomindtest.data.source.local.photolocal
 
 
+import android.util.Log
 import androidx.annotation.VisibleForTesting
 import noblur.com.exomindtest.data.entities.Album
 import noblur.com.exomindtest.data.entities.Photo
@@ -17,10 +18,25 @@ class PhotoLocalDataSource(
 ): PhotoDataSource {
 
     override fun getPhotosByAlbumId(albumId: Int, callback: PhotoDataSource.GetPhotosCallback) {
+        appExecutors.diskIO.execute {
 
+            val photos = photoDao.getPhotosByAlbumId(albumId)
+            appExecutors.diskIO.execute {
+                if (photos.isEmpty()){
+
+                    callback.onDataNotAvailable(500)
+                }else{
+                    callback.onPhotosLoaded(photos)
+
+
+                }
+
+            }
+        }
     }
 
     override fun registerPhotos(photos: List<Photo>) {
+        appExecutors.diskIO.execute { photoDao.insertPhoto(photos) }
 
     }
 

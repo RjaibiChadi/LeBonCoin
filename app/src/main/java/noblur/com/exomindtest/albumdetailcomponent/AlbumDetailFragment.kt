@@ -92,6 +92,7 @@ class AlbumDetailFragment : Fragment(), AlbumItemActionsListener {
 
     override fun onAlbumClicked(album: Album) {
 
+        viewModel.showPhotos(album.id)
 
     }
 
