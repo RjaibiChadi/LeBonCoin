@@ -56,6 +56,7 @@ class PhotoDetailFragment : Fragment() {
         /**
          * initialise recycle view
          */
+
         recyclerView.apply {
 
             addItemDecoration(DividerItemDecoration(activity, DividerItemDecoration.VERTICAL))
