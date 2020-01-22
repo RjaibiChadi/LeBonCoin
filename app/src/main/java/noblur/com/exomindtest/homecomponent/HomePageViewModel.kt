@@ -13,9 +13,15 @@ class HomePageViewModel(
     val userRepository: UserRepository
 ) : ViewModel() {
 
-    private val _users = MutableLiveData<List<User>>().apply { value = emptyList() }
+    private val _users = MutableLiveData<List<User>>()
     val users: LiveData<List<User>>
         get() = _users
+
+    val empty: LiveData<Boolean>
+        get() = _empty
+
+    private val _empty = MutableLiveData<Boolean>()
+
 
     private val _openAlbumEvent = MutableLiveData<Event<Int>>()
     val openAlbumEvent: LiveData<Event<Int>>
@@ -37,7 +43,7 @@ class HomePageViewModel(
 
             override fun onDataNotAvailable(code: Int) {
 
-
+                _empty.value = true
             }
 
         })

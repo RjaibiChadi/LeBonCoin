@@ -47,8 +47,8 @@ class PhotoAdapter (val context: Context,val photos: MutableList<Photo> )
 
             deviceContainer.tag = photo
             photoName.text = photo.title
-            Glide.with(context).load("http://via.placeholder.com/150/771796.png").into(thumbnailPhoto)
-            Log.i("PhotoAdapter",photo.thumbnailUrl)
+            Glide.with(context).load(photo.url).into(thumbnailPhoto)
+
         }
 
 
