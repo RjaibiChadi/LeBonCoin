@@ -1,6 +1,4 @@
 <resources>
-    <string name="app_name">ExomindTest</string>
+    <string name="app_name">LeBonCoinTest</string>
     <string name="home_page">Home Page</string>
-    <string name="album_detail">Album Detail</string>
-    <string name="photo_detail">Photo Detail</string>
 </resources>

@@ -2,24 +2,32 @@
     xmlns:card_view="http://schemas.android.com/tools"
     android:id="@+id/container_user"
     android:layout_width="match_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
-    android:orientation="horizontal"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingBottom="@dimen/list_item_padding"
-    android:paddingTop="@dimen/list_item_padding"
-    android:layout_marginTop="0dp"
-    card_view:cardCornerRadius="1dp">
+    android:layout_height="100dp"
+    >
 
 
-        <TextView
-            android:id="@+id/name_user"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textSize="14sp"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:textAppearance="@style/TextAppearance.AppCompat.Light.SearchResult.Subtitle"
-             />
+            android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/photo_album"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="10dp"
+                    />
+
+                <TextView
+                    android:id="@+id/name_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/photo_album"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@android:color/black"
+                    />
+        </RelativeLayout>
 </androidx.cardview.widget.CardView>
 
